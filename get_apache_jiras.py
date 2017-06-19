@@ -21,18 +21,27 @@ BASE_URL_TEMPL = config.get("global_params","BASE_URL_TEMPL")
 PROJECT_NAME = config.get("global_params","PROJECT_NAME")
 JSON_DIR = "/Users/miachen/Desktop/Apache/Json/"
 
-if not os.path.exists(JSON_DIR):
-    os.makedirs(JSON_DIR)
-
-if not os.path.isdir(JSON_DIR):
-    line = raw_input('the directory is not empty, do you want to delete it, tap "yes" or "non" ')
-    if line == "yes":
-        os.rmdir(JSON_DIR)
-    else:
-        pass
 
 
 
+def check_directory():
+    if not os.path.exists(JSON_DIR):
+        os.makedirs(JSON_DIR)
+
+    print(os.path.isdir(JSON_DIR))
+    if os.path.isdir(JSON_DIR):
+        line = raw_input('the directory is not empty, do you want to delete it, tap "yes" or "non" ')
+        if line == "yes":
+            for the_file in os.listdir(JSON_DIR):
+                file_path = os.path.join(JSON_DIR, the_file)
+                try:
+                    if os.path.isfile(file_path):
+                        os.unlink(file_path)
+                        print("delete")
+                except Exception as e:
+                    print(e)
+        else:
+            pass
 
 
 def get_config(fname="./config.ini"):
@@ -143,6 +152,7 @@ if __name__ == '__main__':
     init()
     limit = 1
     print(limit)
+    check_directory()
     while limit == 1:
         try:
 			fetch(end_val=END)
