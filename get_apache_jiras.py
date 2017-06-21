@@ -7,6 +7,11 @@ import sys
 import io
 import os
 import readline
+import argparse
+
+
+
+
 
 global START, END, START_FILE_NAME, STEP, BASE_URL_TEMPL
 
@@ -23,6 +28,17 @@ JSON_DIR = "/Users/miachen/Desktop/Apache/Json/"
 
 
 
+def delete_directory(JSON_DIR):
+    if os.path.isdir(JSON_DIR):
+        for the_file in os.listdir(JSON_DIR):
+            file_path = os.path.join(JSON_DIR, the_file)
+            try:
+                if os.path.isfile(file_path):
+                    os.unlink(file_path)
+                    print("delete")
+            except Exception as e:
+                print(e)
+
 
 def check_directory():
     if not os.path.exists(JSON_DIR):
@@ -32,16 +48,14 @@ def check_directory():
     if os.path.isdir(JSON_DIR):
         line = raw_input('the directory is not empty, do you want to delete it, tap "yes" or "non" ')
         if line == "yes":
-            for the_file in os.listdir(JSON_DIR):
-                file_path = os.path.join(JSON_DIR, the_file)
-                try:
-                    if os.path.isfile(file_path):
-                        os.unlink(file_path)
-                        print("delete")
-                except Exception as e:
-                    print(e)
+            delete_directory(JSON_DIR)
         else:
             pass
+
+def keep_directory():
+    if os.path.isdir(JSON_DIR):
+        print("we are going to keep the directory")
+
 
 
 def get_config(fname="./config.ini"):
@@ -148,6 +162,7 @@ def fetch_one(address):
     return J
 
 
+
 if __name__ == '__main__':
     init()
     limit = 1
@@ -159,6 +174,17 @@ if __name__ == '__main__':
         except:
             print("hello")
             limit = 0
+    # Instantiate the parser
+    parser = argparse.ArgumentParser(description='Optional app description')
+    parser.add_argument('c', action=check_directory(),
+                        help='check the directory')
+    parser.add_argument('k', action=keep_directory(),
+                        help='keep the directory')
+
+    parser.add_argument('d', action=delete_directory(),
+                        help='delete files in the directory')
+
+
 
 
 
