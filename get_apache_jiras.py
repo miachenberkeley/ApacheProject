@@ -167,13 +167,7 @@ if __name__ == '__main__':
     init()
     limit = 1
     print(limit)
-    check_directory()
-    while limit == 1:
-        try:
-			fetch(end_val=END)
-        except:
-            print("hello")
-            limit = 0
+    #check_directory()
     # Instantiate the parser
     parser = argparse.ArgumentParser(description='Optional app description')
     parser.add_argument('c', action=check_directory(),
@@ -181,8 +175,15 @@ if __name__ == '__main__':
     parser.add_argument('k', action=keep_directory(),
                         help='keep the directory')
 
-    parser.add_argument('d', action=delete_directory(),
-                        help='delete files in the directory')
+    #parser.add_argument('d', action=delete_directory(),
+                        #help='delete files in the directory')
+    while limit == 1:
+        try:
+			fetch(end_val=END)
+        except:
+            print("hello")
+            limit = 0
+
 
 
 
